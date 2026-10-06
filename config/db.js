@@ -13,7 +13,7 @@ export const connectDB =async ()=>{
         console.log("☑️ Mongodb is connected!");
         
     } catch (error) {
-        console.error("❌ Mongodb disconnected...");
+        console.error("❌ Mongodb disconnected...", error);
         process.exit(1);
     }
 }
