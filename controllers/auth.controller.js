@@ -82,6 +82,23 @@ export const getUsers = async(req, res)=>{
     }
 }
 
+//get single user
+export const getUser = async(req, res)=>{
+    try {
+        const { user_id } = req.body;
+        const user = await User.findById(user_id)
+
+        if(!user){
+            return sendError(res,404,"User not found"
+            )
+        }
+
+        return sendSuccess(res, 200, "User retrieved successfully!", user);
+    }catch (error) {
+        console.error("Error getting User: ", error);     
+        return sendError(res, 500, "Failed to get User", error.message)
+    }
+}
 
 //login
 export const loginUser = async(req, res)=>{

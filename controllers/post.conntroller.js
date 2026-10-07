@@ -97,3 +97,37 @@ export const deletePost = async(req, res)=>{
         return sendError(res, 500, "Failed to delete post", error.message);
     }
 }
+
+
+export const getPostsUnderUser = async(req, res)=>{
+    try {
+        const { user_id } = req.params;
+
+        const posts = await Post.find({author: user_id}).sort({createdAt: -1});
+
+        return sendSuccess(res, 200, "User posts retrieved successfully!", posts);
+    }catch (error) {
+        console.error("Error getting posts: ", error);
+        return sendError(res, 500, "Failed to get user's post", error.message);
+    }
+}
+
+export const clapPost = async(req, res)=>{
+    try {
+        const { post_id } = req.params;
+
+        const post = await Post.findById(post_id);
+         if (!post) {
+            return sendError(res, 404, "Post does not exist");
+        }
+
+        post.claps += 1;
+
+        await post.save();
+
+        return sendSuccess(res, 200, "Post clapped successfully!", post);
+    } catch (error) {
+        console.error("Error clapping: ", error);
+        return sendError(res, 500, "Failed to clap a user's post", error.message);
+    }
+}

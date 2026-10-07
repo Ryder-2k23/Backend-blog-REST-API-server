@@ -1,13 +1,14 @@
 import express from "express";
-import { registerUser, getUsers,loginUser, updateUser, deleteUser  } from '../controllers/auth.controller.js';
+import { registerUser, getUsers,getUser,loginUser, updateUser, deleteUser  } from '../controllers/auth.controller.js';
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 router.post("/user-signUp", registerUser);
 router.get("/users", getUsers);
+router.get("/users/:user_id", getUsers);
 router.post("/user-login", loginUser);
-router.put("/update/:user_id", updateUser);
+router.put("/update/:user_id",authMiddleware, updateUser);
 router.delete("/delete/:user_id", deleteUser)
 
 

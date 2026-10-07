@@ -12,9 +12,14 @@ const commentSchema = new mongoose.Schema({
     },
     post:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"User",
+        ref:"Post",
         required:true
-    }
+    },
+    replyTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+        default: null
+}
 }, {timestamps:true})
 
 const Comment = mongoose.model('Comment', commentSchema)

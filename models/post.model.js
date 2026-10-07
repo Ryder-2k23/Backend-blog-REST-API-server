@@ -19,8 +19,8 @@ const postSchema = new mongoose.Schema({
         ref:"User"
     },
     claps:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        type: Number,
+        default: 0
     },
     author: {
         required:true,
