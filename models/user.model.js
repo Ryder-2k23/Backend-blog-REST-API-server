@@ -32,7 +32,6 @@ const userSchema = new mongoose.Schema({
     },
     pronoun:{
         type: String,
-        enum: ["He", "She", "Others"],
         default:null
     },
     avatar:{
