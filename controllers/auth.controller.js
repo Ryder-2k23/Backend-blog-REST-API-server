@@ -85,7 +85,7 @@ export const getUsers = async(req, res)=>{
 //get single user
 export const getUser = async(req, res)=>{
     try {
-        const { user_id } = req.body;
+        const { user_id } = req.params;
         const user = await User.findById(user_id)
 
         if(!user){
