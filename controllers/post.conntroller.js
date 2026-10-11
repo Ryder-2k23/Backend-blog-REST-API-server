@@ -10,30 +10,48 @@ env.config();
 
 
 
-export const createPost = async(req, res)=>{
+
+export const createPost = async (req, res) => {
     try {
         const { title, content } = req.body;
 
-        if(!title || !content){
-            return sendError(res, 404, "Your content is lacking a head or body")
-        };
-
+        if (!title || !content) {
+            return sendError(
+                res,
+                400,
+                "Your content is lacking a head or body"
+            );
+        }
 
         const post = await Post.create({
             title,
             content,
-            author: req.user._id
+            author: req.user._id,
+            image: {
+                url: req.file?.path || null,
+                public_id: req.file?.filename || null
+            }
         });
-        
-        return sendSuccess(res, 201, "Post created successfully!", post);
 
+        return sendSuccess(
+            res,
+            201,
+            "Post created successfully!",
+            post
+        );
 
     } catch (error) {
-        console.error("Error creating Post: ", error);
-        
-        return sendError(res, 500, "Failed to create post", error.message)
+        console.error("Error creating Post:", error);
+
+        return sendError(
+            res,
+            500,
+            "Failed to create post",
+            error.message
+        );
     }
-}
+};
+
 
 export const getSinglePost = async(req, res)=>{
     try {

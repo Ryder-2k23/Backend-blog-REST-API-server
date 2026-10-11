@@ -1,10 +1,11 @@
 import express from "express";
 import { createPost, getSinglePost, getPosts, updatePost, deletePost, getPostsUnderUser, clapPost } from '../controllers/post.conntroller.js';
 import { authMiddleware } from "../middlewares/auth.middleware.js";
+import upload from "../middlewares/upload.middleware.js";
 
 const router = express.Router();
 
-router.post("/posts/", authMiddleware, createPost);
+router.post("/posts/", authMiddleware,upload.single("image"), createPost);
 router.get("/posts/:post_id", getSinglePost );
 router.get("/posts/", getPosts);
 router.get("/users/:user_id/posts", getPostsUnderUser);
