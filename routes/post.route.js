@@ -1,7 +1,7 @@
 import express from "express";
 import { createPost, getSinglePost, getPosts, updatePost, deletePost, getPostsUnderUser, clapPost } from '../controllers/post.conntroller.js';
 import { authMiddleware } from "../middlewares/auth.middleware.js";
-import upload from "../middlewares/upload.middleware.js";
+import upload from "../middlewares/fileUpload.middleware.js";
 
 const router = express.Router();
 
