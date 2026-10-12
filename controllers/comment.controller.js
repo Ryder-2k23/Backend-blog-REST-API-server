@@ -116,8 +116,10 @@ const getNestedReplies = async(comment_id)=>{
 export const commentsUnderPost = async (req, res) => {
     try {
         const { post_id } = req.params;
-
-        const comment = await Comment.find({ post: post_id, replyTo:null }).sort({createdAt:1});
+const comments = await Comment.find({
+    post: post_id,
+    replyTo: null
+}).populate("user", "first_name last_name");
 
         for(const comments of comment){
             comments._doc.replies = await getNestedReplies(comments._id)

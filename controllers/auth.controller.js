@@ -164,6 +164,8 @@ export const loginUser = async(req, res)=>{
 
 export const updateUser = async (req, res) => {
     try {
+        console.log("UPLOADED FILE:", req.file);
+    console.log("BODY:", req.body);
         const { user_id } = req.params;
 
         const updateData = {
