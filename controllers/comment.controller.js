@@ -113,25 +113,33 @@ const getNestedReplies = async(comment_id)=>{
     }
 }
 
+
 export const commentsUnderPost = async (req, res) => {
     try {
         const { post_id } = req.params;
-const comments = await Comment.find({
-    post: post_id,
-    replyTo: null
-}).populate("user", "first_name last_name");
 
-        for(const comments of comment){
-            comments._doc.replies = await getNestedReplies(comments._id)
+        const comments = await Comment.find({
+            post: post_id,
+            replyTo: null
+        }).populate("user", "first_name last_name");
+
+        for (const comment of comments) {
+            comment._doc.replies = await getNestedReplies(comment._id);
         }
 
+        return sendSuccess(
+            res,
+            200,
+            "Comments retrieved successfully!",
+            comments
+        );
 
-        return sendSuccess(res, 200, "Comments retrieved successfully!", comment);
     } catch (error) {
         console.error("Error getting comment: ", error);
-        return sendError(res, 500, "Failed to get comments", error.message)
+        return sendError(res, 500, "Failed to get comments", error.message);
     }
-}
+};
+
 
 
 export const getReplies = async(req, res)=>{
