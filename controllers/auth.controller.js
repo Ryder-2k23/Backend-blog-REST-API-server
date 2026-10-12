@@ -146,21 +146,50 @@ export const loginUser = async(req, res)=>{
 
 
 //update user
-export const updateUser = async(req, res)=>{
+// export const updateUser = async(req, res)=>{
+//     try {
+//         const { user_id } = req.params;
+        
+//         const user = await User.findByIdAndUpdate(user_id, req.body, {new:true, runValidators:true});
+
+//         if(!user){
+//             return sendError(res, 404, "User not found")
+//         }
+//         return sendSuccess(res, 200, "User updated successfully!", user )
+//     }  catch (error) {
+//         console.error("Error updating User: ", error);     
+//         return sendError(res, 500, "Failed to update User", error.message)
+//     }
+// }
+
+export const updateUser = async (req, res) => {
     try {
         const { user_id } = req.params;
-        
-        const user = await User.findByIdAndUpdate(user_id, req.body, {new:true, runValidators:true});
 
-        if(!user){
-            return sendError(res, 404, "User not found")
+        const updateData = {
+            ...req.body
+        };
+
+        if (req.file) {
+            updateData.avatar = req.file.path;
         }
-        return sendSuccess(res, 200, "User updated successfully!", user )
-    }  catch (error) {
-        console.error("Error updating User: ", error);     
-        return sendError(res, 500, "Failed to update User", error.message)
+
+        const user = await User.findByIdAndUpdate(
+            user_id,
+            updateData,
+            { new: true, runValidators: true }
+        );
+
+        if (!user) {
+            return sendError(res, 404, "User not found");
+        }
+
+        return sendSuccess(res, 200, "User updated successfully!", user);
+    } catch (error) {
+        console.error("Error updating User: ", error);
+        return sendError(res, 500, "Failed to update User", error.message);
     }
-}
+};
 
 
 //delete user
