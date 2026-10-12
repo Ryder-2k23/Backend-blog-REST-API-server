@@ -9,7 +9,7 @@ router.post("/posts/", authMiddleware,upload.single("image"), createPost);
 router.get("/posts/:post_id", getSinglePost );
 router.get("/posts/", getPosts);
 router.get("/users/:user_id/posts", getPostsUnderUser);
-router.put("/posts/:post_id",authMiddleware, updatePost);
+router.put("/posts/:post_id",authMiddleware,upload.single("avatar"), updatePost);
 router.delete("/posts/:post_id",authMiddleware, deletePost);
 router.post("/posts/:post_id/clap", authMiddleware, clapPost);
 
