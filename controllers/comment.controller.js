@@ -99,19 +99,21 @@ export const deleteComment = async (req, res) => {
     }
 }
 
-const getNestedReplies = async(comment_id)=>{
-    try {
-        const replies = await Comment.find({replyTo: comment_id}).sort({createdAt:-1});
 
-        for(const reply of replies){
-            reply._doc.replies = await getNestedReplies(reply._id);
-        }
-        return replies;
-    }  catch (error) {
-        console.error("Error getting replies: ", error);
-        return sendError(res, 500, "Failed to get replies", error.message)
+const getNestedReplies = async (comment_id) => {
+    const replies = await Comment.find({
+        replyTo: comment_id
+    })
+        .populate("user", "first_name last_name")
+        .sort({ createdAt: -1 });
+
+    for (const reply of replies) {
+        reply._doc.replies = await getNestedReplies(reply._id);
     }
-}
+
+    return replies;
+};
+
 
 
 export const commentsUnderPost = async (req, res) => {
