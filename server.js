@@ -12,7 +12,15 @@ dotenv.config()
 
 const app = express();
 
-app.use(cors({origin: "http://localhost:5173"}));
+// app.use(cors({origin: "http://localhost:5173"}));
+app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        "https://medium-clone-fullstack.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(errorMiddleware)
