@@ -24,7 +24,7 @@ const generateToken = (user)=>{
 // register user 
 export const registerUser = async(req, res)=>{
     try {
-        const { first_name, last_name, email, contact, password } = req.body;
+        const { first_name, last_name, email, contact, password,role } = req.body;
 
         if(!first_name || !last_name || !email || !password){
             return sendError(
@@ -56,7 +56,8 @@ export const registerUser = async(req, res)=>{
             last_name,
             email:normalizeEmail,
             contact,
-            password: hashPassword
+            password: hashPassword,
+            role
         });
         return sendSuccess(res, 201, "User created successfully!", user);
 
@@ -103,7 +104,7 @@ export const getUser = async(req, res)=>{
 //login
 export const loginUser = async(req, res)=>{
     try {
-        const { email, password } = req.body;
+        const { email, password,} = req.body;
         if(!email || !password){
             return sendError(res, 400, "Invalid Email or parssword")
         };
@@ -133,7 +134,8 @@ export const loginUser = async(req, res)=>{
         return sendSuccess(res, 200, "Login successful!", {
             user:{
                 id:user._id,
-                email:user.email
+                email:user.email,
+                role:user.role
             },
             accessToken: token
         })
