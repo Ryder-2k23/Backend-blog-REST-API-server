@@ -34,13 +34,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         default:null
     },
+     role:{
+        type: String,
+        enum:["user", "admin"],
+        default: "user",
+        required:true,
+        lowercase: true
+    },
     avatar:{
         type: String,
         default: null
     },
     bio:{
         type:String,
-        minlength: [20, "Bio is not detailed enou"],
+        minlength: [20, "Bio is not detailed enough"],
         default:null
     },
 }, {timestamps: true})
